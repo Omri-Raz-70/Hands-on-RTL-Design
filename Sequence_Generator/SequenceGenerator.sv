@@ -4,9 +4,9 @@ module seq_generator#(parameter DataBus = 32)(
 
     output logic  [DataBus-1:0] seq_o_w
 );
-logic [DataBus-1:0] n_1_reg = 1;
-logic [DataBus-1:0] n_2_reg = '0;
-logic [DataBus-1:0] n_3_reg = '0;
+logic [DataBus-1:0] n_1_reg;
+logic [DataBus-1:0] n_2_reg;
+logic [DataBus-1:0] n_3_reg;
 
 logic [DataBus-1:0] seq_o_reg = '0;
 
