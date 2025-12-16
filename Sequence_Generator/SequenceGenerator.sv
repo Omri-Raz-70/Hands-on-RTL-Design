@@ -11,7 +11,6 @@ always @(posedge clk or posedge reset) begin
         n_1_reg   <= 1;
         n_2_reg   <= 0;
         n_3_reg   <= 0;
-        seq_o_reg <= 0;
     end else begin
         n_3_reg   <= n_2_reg;
         n_2_reg   <= n_1_reg;
