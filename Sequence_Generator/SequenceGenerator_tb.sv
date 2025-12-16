@@ -19,18 +19,20 @@ initial begin
 end
 
 
-seq_generator dut(.clk_w(clk),.reset_w(reset),.seq_o_w(seq_o));
+seq_generator dut(.clk(clk),.reset(reset),.seq_o(seq_o));
 
 initial begin
 @(negedge reset);
 
 for (int i = 0; i<20; i++) begin 
-    d_cycles = $urandom_range(10,3000);
+    d_cycles = $urandom_range(10,50);
     repeat(d_cycles) @(posedge clk);
     reset =1;
     @(posedge clk);
     reset = 0;
 end
+repeat(10) @(posedge clk);
+$finish();
 end
 
 endmodule

@@ -1,35 +1,24 @@
 module seq_generator#(parameter DataBus = 32)(
-    input logic clk_w,
-    input logic reset_w,
-
-    output logic  [DataBus-1:0] seq_o_w
+    input logic clk,
+    input logic reset,
+    output logic [DataBus-1:0] seq_o
 );
-logic [DataBus-1:0] n_1_reg;
-logic [DataBus-1:0] n_2_reg;
-logic [DataBus-1:0] n_3_reg;
 
-logic [DataBus-1:0] seq_o_reg = '0;
+reg [DataBus-1:0] n_1_reg, n_2_reg, n_3_reg;
 
-
-always_ff @( posedge clk_w ) begin : seq_o
-    if (reset_w) begin
-        n_1_reg     <= 1;
-        n_2_reg     <= '0;
-        n_3_reg     <= '0;
-        seq_o_reg   <= '0;
-      
+always @(posedge clk or posedge reset) begin
+    if (reset) begin
+        n_1_reg   <= 1;
+        n_2_reg   <= 0;
+        n_3_reg   <= 0;
+        seq_o_reg <= 0;
+    end else begin
+        n_3_reg   <= n_2_reg;
+        n_2_reg   <= n_1_reg;
+        n_1_reg   <= n_2_reg + n_3_reg;
     end
-    else begin 
-        seq_o_reg   <= n_2_reg + n_3_reg;
-        n_3_reg     <= n_2_reg;
-        n_2_reg     <= n_1_reg;
-        n_1_reg     <= n_2_reg + n_3_reg;
-    end
-    end
+end
 
-assign seq_o_w = seq_o_reg;
+assign seq_o = n_2_reg + n_3_reg;
 
 endmodule
-
-
-
