@@ -9,7 +9,7 @@ This project implements a digital sequence generator using Verilog/SystemVerilog
 ## Specifications
 * **Logic:** The sequence generates indefinitely until interrupted.
 * **Clocking:** Positive edge triggered.
-* **Reset:** Synchronous Reset (active high).
+* **Reset:** Synchronous Reset.
     * When `rst` is asserted (1), the output `seq_o` resets to `0`.
 
 I have done this moudle succesfuly and create simple testbench file for it.
