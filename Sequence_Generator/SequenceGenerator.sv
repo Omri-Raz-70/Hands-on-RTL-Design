@@ -4,21 +4,26 @@ module seq_generator#(parameter DataBus = 32)(
 
     output logic  [DataBus-1:0] seq_o_w
 );
-logic [DataBus-1:0] x_0_reg = '0;
-logic [DataBus-1:0] x_1_reg = 1;
+logic [DataBus-1:0] n_1_reg = 1;
+logic [DataBus-1:0] n_2_reg = '0;
+logic [DataBus-1:0] n_3_reg = '0;
+
 logic [DataBus-1:0] seq_o_reg = '0;
 
 
 always_ff @( posedge clk_w ) begin : seq_o
     if (reset_w) begin
-        x_0_reg <= '0;
-        x_1_reg <= 1;
-        seq_o_reg <= '0;
+        n_1_reg     <= 1;
+        n_2_reg     <= '0;
+        n_3_reg     <= '0;
+        seq_o_reg   <= '0;
+      
     end
     else begin 
-        seq_o_reg <= x_0_reg +x_1_reg;
-        x_0_reg <= x_1_reg;
-        x_1_reg <= x_0_reg +x_1_reg;
+        seq_o_reg   <= n_2_reg + n_3_reg;
+        n_3_reg     <= n_2_reg;
+        n_2_reg     <= n_1_reg;
+        n_1_reg     <= n_2_reg + n_3_reg;
     end
     end
 
@@ -28,4 +33,3 @@ endmodule
 
 
 
-// https://github.com/Omri-Raz-70/Hands-on-RTL-Design.git
