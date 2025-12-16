@@ -9,12 +9,11 @@ This project implements a digital sequence generator using Verilog/SystemVerilog
 ## Specifications
 * **Logic:** The sequence generates indefinitely until interrupted.
 * **Clocking:** Positive edge triggered.
-* **Reset:** Synchronous Reset.
+* **Reset:** Asynchronous Reset.
     * When `rst` is asserted (1), the output `seq_o` resets to `0`.
 
 I have done this moudle succesfuly and create simple testbench file for it.
 
 The waveform below demonstrates the correct operation. You can see `seq_o` updating at every clock edge  and resetting to `0` when the `rst` signal goes high.
-<img width="1840" height="115" alt="image" src="https://github.com/user-attachments/assets/55fd6065-4b56-4f0a-a8a0-d3a67e507825" />
+<img width="1838" height="104" alt="image" src="https://github.com/user-attachments/assets/025ba47a-9e3b-4fc3-a238-ccac0189ec87" />
 
-Although I wrote the code in SystemVerilog, I maintained the explicit wire and reg data types, following the principles from my academic studies.
