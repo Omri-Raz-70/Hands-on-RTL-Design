@@ -17,4 +17,4 @@ I have done this moudle succesfuly and create simple testbench file for it.
 The waveform below demonstrates the correct operation. You can see `seq_o` updating at every clock edge  and resetting to `0` when the `rst` signal goes high.
 <img width="1840" height="115" alt="image" src="https://github.com/user-attachments/assets/55fd6065-4b56-4f0a-a8a0-d3a67e507825" />
 
-Although I wrote the code in SystemVerilog, I maintained the explicit wire and reg data types, following the conventions from my academic studies.
+Although I wrote the code in SystemVerilog, I maintained the explicit wire and reg data types, following the principles from my academic studies.
