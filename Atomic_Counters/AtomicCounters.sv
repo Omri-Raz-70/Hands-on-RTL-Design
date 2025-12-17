@@ -1,39 +1,57 @@
 module atomic_counters#(
-    parameter DataBus = 32,
-    parameter CountLen = 64
+    parameter DATABUS = 32,
+    parameter COUNTLEN = 64
 ) (
-  input                   clk_w,
-  input                   reset_w,
-  input                   trig_w_i, // triger input to increment the counter
-  input                   req_w_i,  // a read request to the counter
-  input                   atomic_w_i, // marks wheather the current request is the first part of the two 32 - bit access to read the 64 bit counterr
-  output logic            ack_w_o,  // acknowledge output from the counter
-  output logic[DataBus-1:0]      count_w_o  // counter value given as a output to the controller
+  input  wire            clk,
+  input  wire            reset,
+  input  wire            trig_i,
+  input  wire            req_i,
+  input  wire            atomic_i,
+  output wire            ack_o,
+  output wire[DATABUS-1:0]      count_o
 );
 
 
-    logic [CountLen-1:0] count_q_reg;
-    logic [CountLen-1:0] count_reg;
-    logic [CountLen-1:0] cur_count_reg;
+  wire [COUNTLEN-1:0] count;
+  reg [DATABUS-1 : 0] count_msb_reg;
+  reg req_i_reg;
+  reg atomic_i_reg;
 
-    always_ff @(posedge clk or posedge reset) begin
-        if (reset)
-        count_q[CountLen-1:0] <= 64'h0;
-        else
-        count_q[CountLen-1:0] <= count_reg;
+  
 
+  // --------------------------------------------------------
+  // DO NOT CHANGE ANYTHING HERE
+  // --------------------------------------------------------
+  reg  [COUNTLEN-1:0] count_q;
+
+  always_ff @(posedge clk or posedge reset)begin
+    if (reset)begin
+        count_q[COUNTLEN-1:0]   <= 64'b0;
     end
-
-    always_ff @(posedge clk) begin
-
+    else begin
+        count_q[COUNTLEN-1:0]   <= count; //the register will update each clock cycle
     end
+  end
+  // --------------------------------------------------------
+
+always_ff @(posedge clk or posedge reset)begin 
+    if (reset)begin
+        count_msb_reg           <= 32'b0;
+        req_i_reg               <= 1'b0;
+        atomic_i_reg            <= 1'b0;
+    end
+    else begin
+        count_msb_reg           <= count_q[63:32]; // when assign we will use the prev value
+        req_i_reg               <= req_i;
+        atomic_i_reg            <= atomic_i; 
+    end
+end
 
 
+assign count = (trig_i) ? (count_q +1) : count_q;
+assign count_o = (req_i_reg) ? (atomic_i_reg) ? count_q[DATABUS-1 :0] : count_msb_reg : 32'b0;
+assign ack_o = req_i_reg;
 
-
-
-
-    assign count_w_o = count_q
 
 endmodule
 
