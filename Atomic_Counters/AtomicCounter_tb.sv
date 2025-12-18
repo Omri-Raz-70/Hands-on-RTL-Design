@@ -75,11 +75,11 @@ for (int i = 0; i<20; i++)begin
         msb_lut = count_tb[63:32];
         lsb_lut = count_tb [31:0];
         req_i = 1;
-        atomic_i = 0;
+        atomic_i = 1;
         ack_o_tb =1;
         @(posedge clk);
         count_tb =(trig_i) ? count_tb +1 : count_tb;
-        atomic_i = 1;
+        atomic_i = 0;
         @(posedge clk); 
     end
     atomic_i = 0;

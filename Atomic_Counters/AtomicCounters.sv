@@ -42,7 +42,7 @@ always_ff @(posedge clk or posedge reset)begin
         atomic_i_reg            <= 1'b0;
     end
     else begin
-        count_msb_reg           <= count_q[63:32]; // when assign we will use the prev value
+        count_msb_reg           <= (atomic_i) ?count_q[63:32]: count_msb_reg; // when assign we will use the prev value
         req_i_reg               <= req_i;
         atomic_i_reg            <= atomic_i; 
     end
@@ -50,7 +50,7 @@ end
 
 
 assign count = (trig_i) ? (fast_i) ? (count_q + 1000000) : (count_q +1) : count_q;
-assign count_o = (req_i_reg) ? (atomic_i_reg) ? count_q[DATABUS-1 :0] :count_msb_reg : 32'b0;
+assign count_o = (req_i_reg) ? ((atomic_i_reg) ? count_q[DATABUS-1 :0] :count_msb_reg): 32'b0;
 assign ack_o = req_i_reg;
 
 
