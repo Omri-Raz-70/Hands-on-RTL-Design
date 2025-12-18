@@ -49,7 +49,7 @@ always_ff @(posedge clk or posedge reset)begin
 end
 
 
-assign count = (trig_i) ? (fast_i) ? (count_q + 1000000) : (count_q +1) : count_q;
+assign count = (trig_i) ? (fast_i) ? (count_q + 1000000) : (count_q +1) : count_q; // checked also with 32'hFFFF
 assign count_o = (req_i_reg) ? ((atomic_i_reg) ? count_q[DATABUS-1 :0] :count_msb_reg): 32'b0;
 assign ack_o = req_i_reg;
 
