@@ -7,6 +7,7 @@ module atomic_counters#(
   input  wire            trig_i,
   input  wire            req_i,
   input  wire            atomic_i,
+  input  wire            fast_i,
   output wire            ack_o,
   output wire[DATABUS-1:0]      count_o
 );
@@ -48,8 +49,8 @@ always_ff @(posedge clk or posedge reset)begin
 end
 
 
-assign count = (trig_i) ? (count_q +1) : count_q;
-assign count_o = (req_i_reg) ? (atomic_i_reg) ? count_q[DATABUS-1 :0] : count_msb_reg : 32'b0;
+assign count = (trig_i) ? (fast_i) ? (count_q + 1000000) : (count_q +1) : count_q;
+assign count_o = (req_i_reg) ? (atomic_i_reg) ? count_msb_reg :count_q[DATABUS-1 :0] : 32'b0;
 assign ack_o = req_i_reg;
 
 
